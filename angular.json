@@ -3,5 +3,38 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "alice-locale": {
+      "projectType": "library",
+      "root": "projects/alice-locale",
+      "sourceRoot": "projects/alice-locale/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/alice-locale/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/alice-locale/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/alice-locale/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/alice-locale/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
   }
 }
