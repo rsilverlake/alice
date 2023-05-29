@@ -13,7 +13,8 @@ export class TranslatePipe implements PipeTransform {
   
 
   transform(value: string, ...args: any[]): string {
-    return this.localeService.translate(value, args);
+    var translated = this.localeService.translate(value, args);
+    return translated;
   }
 
 }

@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { AliceLocaleComponent } from './alice-locale.component';
 import { TranslatePipe } from './translate.pipe';
+import { AliceLocaleService } from './alice-locale.service';
 
 
 
 @NgModule({
   declarations: [
-    AliceLocaleComponent,
     TranslatePipe
   ],
   imports: [
   ],
   exports: [
-    AliceLocaleComponent
+    TranslatePipe,
+  ],
+  providers: [
+    AliceLocaleService
   ]
 })
 export class AliceLocaleModule { }

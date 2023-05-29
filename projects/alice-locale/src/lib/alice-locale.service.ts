@@ -7,13 +7,17 @@ import { LanguageDictionary } from '../models/language-dictionary';
 })
 export class AliceLocaleService {
   locales: LanguageDictionary[];
+  debug: boolean = false;
   private currentLocale?: LanguageDictionary;
+  private selectedLocale?: string;
 
   constructor(private http: HttpClient) {
     this.locales = [];
   }
 
   public setLocale(id: string): boolean {
+    id = id.trim().toLowerCase();
+    this.selectedLocale = id;
     var sel = this.locales.find(x => x.id == id);
     if (sel) {
       this.currentLocale = sel;
@@ -46,12 +50,33 @@ export class AliceLocaleService {
             dictionary.addFrom(data);
             that.locales.push(dictionary);
           }
-          if (!this.currentLocale) {
-            this.setLocale(langId);
+          if (that.selectedLocale && that.selectedLocale == langId) {
+            that.setLocale(that.selectedLocale);
+            that.selectedLocale = undefined;
+          }
+          else if (!that.selectedLocale && !that.currentLocale) {
+            that.setLocale(langId);
           }
         }
+        if (that.debug) console.log("AliceLocaleService: Loaded '" + uri + "'");
         resolve(true);
       });
+    });
+  }
+
+  public loadDictionaries(uris: string[]): Promise<any> {
+    var that = this;
+    return new Promise<any>((resolve, reject) => {
+      var loaded = 0;
+      for(var i = 0; i < uris.length; i++) {
+        that.loadDictionary(uris[i]).then(() => {
+          loaded++;
+          if (loaded >= uris.length)
+            resolve(true);
+        }).catch(() => {
+          reject("Failed to load dictionary");
+        });
+      }
     });
   }
 
