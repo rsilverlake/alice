@@ -14,7 +14,9 @@ describe('TranslatePipe', () => {
       "id": "en",
       "dictionary": {
         "test": {
-          "item": "This is a test item with value {0}!"
+          "item": "This is a test item with value {0}!",
+          "named": "I have {count} baloons.",
+          "stacked": "I have {[1].color} baloons.",
         }
       }
     }));
@@ -28,7 +30,16 @@ describe('TranslatePipe', () => {
 
   it('transforms text with variables correctly', () => {
     const pipe = new TranslatePipe(service);
-    console.log(pipe.transform("test.item", 123));
     expect(pipe.transform("test.item", 123)).toBe("This is a test item with value 123!");
+  });
+
+  it('transforms text with named variables correctly', () => {
+    const pipe = new TranslatePipe(service);
+    expect(pipe.transform("test.named", {count: 3})).toBe("I have 3 baloons.");
+  });
+
+  it('transforms text with named variables in second args correctly', () => {
+    const pipe = new TranslatePipe(service);
+    expect(pipe.transform("test.stacked", {count: 3}, {color: "red"})).toBe("I have red baloons.");
   });
 });

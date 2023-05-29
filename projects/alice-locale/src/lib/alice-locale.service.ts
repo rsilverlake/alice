@@ -75,9 +75,9 @@ export class AliceLocaleService {
     if (typeof value === "object") {
       for(var k in value) {
         if (index == 0) {
-          merged = merged.replace("{" + k + "}", value);
+          merged = merged.replace("{" + k + "}", value[k]);
         }
-        merged = merged.replace("{[" + index + "]." + k + "}", value);
+        merged = merged.replace("{[" + index + "]." + k + "}", value[k]);
       }
     }
     else {
